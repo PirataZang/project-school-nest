@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { productDto } from './products.dto';
 
@@ -16,9 +16,19 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
+  @Get('/product/:id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);
+  }
+
+  @Get('/product/:name')
+  findMany(@Param('name') name: string) {
+    return this.productsService.findMany(name);
+  }
+
+  @Get('product')
+  async searchProduct(@Query('name') name: string) {
+    return this.productsService.findMany(name);
   }
 
   @Patch(':id')
